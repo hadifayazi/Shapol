@@ -36,6 +36,8 @@ export const verifyToke = async (req, res, next) => {
       req.headers.authorization.split(" ")[0] === "Bearer"
     ) {
       token = req.headers.authorization.split(" ")[1];
+    } else if (req.cookies.jwt) {
+      token = req.cookies.jwt;
     }
 
     if (!token)
@@ -112,7 +114,7 @@ export const login = async (req, res, next) => {
 };
 
 export const logout = async (req, res) => {
-  res.cookie("jwt", "logged-out", {
+  res.clearCookie("jwt", {
     expiresIn: new Date(Date.now() + 1000),
     httpOnly: true,
   });

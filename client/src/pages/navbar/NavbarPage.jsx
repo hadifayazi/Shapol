@@ -33,8 +33,7 @@ function NavbarPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth.user);
-  const [logoutUser, results] = useLogoutUserMutation();
-  console.log(results);
+  const [logoutUser] = useLogoutUserMutation();
 
   const IsNonMobileSreens = useMediaQuery("(min-width:1000px)");
   const theme = useTheme();
