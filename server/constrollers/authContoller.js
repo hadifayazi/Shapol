@@ -82,7 +82,7 @@ export const signup = async (req, res, next) => {
       location,
       bio,
     });
-    sendToken(newUser._id, res, 201);
+    sendToken(newUser, res, 201);
   } catch (err) {
     res.status(400).json({
       message: err.message || err,
