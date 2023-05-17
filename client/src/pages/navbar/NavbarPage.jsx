@@ -26,14 +26,17 @@ import { setMode } from "../../store/slices/authSlice";
 
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "../../components/FlexBetween";
+import { useLogoutUserMutation } from "../../store/api/authApi";
 
 function NavbarPage() {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth.user);
-  const IsNonMobileSreens = useMediaQuery("(min-width:1000px)");
+  const [logoutUser, results] = useLogoutUserMutation();
+  console.log(results);
 
+  const IsNonMobileSreens = useMediaQuery("(min-width:1000px)");
   const theme = useTheme();
   const neutralLight = theme.palette.neutral.light;
   const dark = theme.palette.neutral.dark;
@@ -42,6 +45,11 @@ function NavbarPage() {
   const alt = theme.palette.background.alt;
 
   const fullName = `${user.firstName} ${user.lastName}`;
+
+  const handleLogout = async () => {
+    logoutUser();
+    navigate("/");
+  };
 
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>
@@ -108,7 +116,7 @@ function NavbarPage() {
               <MenuItem value={fullName}>
                 <Typography>{fullName}</Typography>
               </MenuItem>
-              <MenuItem>Log Out</MenuItem>
+              <MenuItem onClick={handleLogout}>Log Out</MenuItem>
             </Select>
           </FormControl>
         </FlexBetween>
@@ -179,7 +187,7 @@ function NavbarPage() {
                 <MenuItem value={fullName}>
                   <Typography>{fullName}</Typography>
                 </MenuItem>
-                <MenuItem>Log Out</MenuItem>
+                <MenuItem onClick={handleLogout}>Log Out</MenuItem>
               </Select>
             </FormControl>
           </FlexBetween>
