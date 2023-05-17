@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import LoginIcon from "@mui/icons-material/Login";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -9,17 +9,19 @@ import { setCredentials } from "../../store/slices/authSlice";
 export const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const errorRef = useRef("");
 
   const [loginUser, { data, isSuccess, isError, error }] =
     useLoginUserMutation();
 
-  let errorMessage;
-  if (isSuccess) {
-    dispatch(setCredentials(data));
-  } else if (isError || error) {
-    console.log(isError);
-    errorMessage = error.data.message;
-  }
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(setCredentials(data));
+      navigate("/home");
+    } else if (isError || error) {
+      errorRef.current = error.data.message;
+    }
+  }, [dispatch, navigate, data, error, isError, isSuccess]);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -43,7 +45,6 @@ export const LoginPage = () => {
       password,
     };
     loginUser(userData);
-    navigate("/home");
   };
   return (
     <>
@@ -86,7 +87,7 @@ export const LoginPage = () => {
             </button>
           </div>
         </form>
-        <Typography>{errorMessage}</Typography>
+        <Typography>{errorRef.current}</Typography>
       </section>
     </>
   );

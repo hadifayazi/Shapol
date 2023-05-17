@@ -1,5 +1,5 @@
-export const NavbarPage = () => {
-  return <div>NaavbarPage</div>;
-};
+import React from "react";
 
-export default NavbarPage;
+export const NavbarPage = () => {
+  return <div>NavbarPage</div>;
+};
