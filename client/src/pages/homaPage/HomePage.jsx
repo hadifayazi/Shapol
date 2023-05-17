@@ -1,5 +1,11 @@
+import NavbarPage from "../navbar/NavbarPage";
+
 export const HomePage = () => {
-  return <div>HomePage</div>;
+  return (
+    <div>
+      <NavbarPage />
+    </div>
+  );
 };
 
 export default HomePage;
