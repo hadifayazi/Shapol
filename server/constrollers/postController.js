@@ -31,3 +31,13 @@ export const getFeedPost = async (req, res) => {
     res.status(404).json({ message: error.message || error });
   }
 };
+
+export const getUserPost = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const posts = await Post.findById(userId);
+    res.status(200).json({ data: posts });
+  } catch (error) {
+    res.status(404).json({ message: error.message || error });
+  }
+};
