@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  addRemoveFriends,
   getAllUsers,
   getFreinds,
   getMe,
@@ -11,5 +12,6 @@ const router = express.Router();
 router.get("/", getAllUsers);
 router.get("/me", verifyToke, getMe);
 router.get("/:userId/friends", getFreinds);
+router.patch("/:userId/:friendId", addRemoveFriends);
 
 export default router;
