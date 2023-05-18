@@ -27,13 +27,12 @@ const sendToken = (user, res, statusCode) => {
   });
 };
 
-export const verifyToke = async (req, res, next) => {
+export const verifyToken = async (req, res, next) => {
   try {
     let token;
-
     if (
-      req.headers.authorization &&
-      req.headers.authorization.split(" ")[0] === "Bearer"
+      req.headers.authorizations &&
+      req.headers.authorizations.startsWith("Bearer")
     ) {
       token = req.headers.authorization.split(" ")[1];
     } else if (req.cookies.jwt) {
@@ -45,20 +44,16 @@ export const verifyToke = async (req, res, next) => {
         message: "In order to access please login!",
       });
 
-    // 2) if it exists verification of token
-    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(verified.id);
 
-    // 3) check if user still exists
-    const user = await User.findById(decoded.id);
+    if (!user)
+      return res.status(403).json({ message: "User couldn't be verified" });
 
-    if (!user) return res.status(403).json({ message: "User does not exist" });
     req.user = user;
-    res.locals.user = user;
     next();
-  } catch (err) {
-    res.status(401).json({
-      message: err.message || err,
-    });
+  } catch (error) {
+    res.status(403).json({ error: error.message });
   }
 };
 
