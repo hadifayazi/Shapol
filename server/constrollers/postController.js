@@ -19,6 +19,15 @@ export const createPost = async (req, res) => {
 
     res.statusCode(201).json({ data: newPost });
   } catch (error) {
+    res.status(400).json({ message: error.message || error });
+  }
+};
+
+export const getFeedPost = async (req, res) => {
+  try {
+    const posts = await Post.findById();
+    res.status(200).json({ data: posts });
+  } catch (error) {
     res.status(404).json({ message: error.message || error });
   }
 };
