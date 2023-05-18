@@ -29,3 +29,23 @@ export const getMe = async (req, res, next) => {
     });
   }
 };
+
+export const getFreinds = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.findById(userId);
+    const friends = await Promise.all(() => {
+      user.friends.map((friendId) => {
+        User.findById(friendId);
+      });
+    });
+    const formatedFriends = friends.map(
+      ({ _id, firstName, lastName, location, picturePath, occupation }) => {
+        return { _id, firstName, lastName, location, picturePath, occupation };
+      }
+    );
+    res.status(200).json({ formatedFriends });
+  } catch (error) {
+    res.status(400).json({ message: error.message || error });
+  }
+};

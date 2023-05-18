@@ -72,6 +72,7 @@ export const signup = async (req, res, next) => {
       passwordConfirmation,
       picturePath,
       location,
+      friends,
       bio,
     } = req.body;
     const newUser = await User.create({
@@ -83,6 +84,7 @@ export const signup = async (req, res, next) => {
       picturePath,
       location,
       bio,
+      friends,
     });
     sendToken(newUser, res, 201);
   } catch (err) {
