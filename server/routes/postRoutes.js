@@ -3,11 +3,12 @@ import {
   createPost,
   getFeedPost,
   getUserPost,
+  likesPost,
 } from "../constrollers/postController";
 
 const router = express.Router();
 
 router.route("/").post(createPost).get(getFeedPost);
 router.get("/:userId/posts", getUserPost);
-
+router.patch("/:id/like", likesPost);
 export default router;
