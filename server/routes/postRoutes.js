@@ -4,7 +4,7 @@ import {
   getFeedPost,
   getUserPost,
   likesPost,
-} from "../constrollers/postController";
+} from "../constrollers/postController.js";
 
 const router = express.Router();
 
