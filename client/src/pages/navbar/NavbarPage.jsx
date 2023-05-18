@@ -65,7 +65,7 @@ function NavbarPage() {
           }}
           onClick={() => navigate("/home")}
         >
-          TClone
+          Shapol
         </Typography>
         {IsNonMobileSreens && (
           <FlexBetween
