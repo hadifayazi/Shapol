@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser";
 import { signup } from "./constrollers/authContoller.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import postRoutes from "./routes/postRoutes.js";
 
 const app = express();
 
@@ -48,5 +49,6 @@ app.post("/auth/signup", upload.single("picture"), signup);
 //Routes
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
+app.use("/posts", postRoutes);
 
 export default app;
