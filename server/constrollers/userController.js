@@ -1,6 +1,6 @@
 import User from "../models/userModel.js";
 
-export const getAllUsers = async (req, res, next) => {
+export const getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
     res.status(200).json({
@@ -15,13 +15,13 @@ export const getAllUsers = async (req, res, next) => {
   }
 };
 
-export const getMe = async (req, res, next) => {
+export const getMe = async (req, res) => {
   try {
     const user = req.user;
-    // console.log(res.locals.user);
+
     res.status(200).json({
       message: "success",
-      date: { user },
+      data: { user },
     });
   } catch (err) {
     res.status(400).json({
@@ -30,7 +30,7 @@ export const getMe = async (req, res, next) => {
   }
 };
 
-export const getFreinds = async (req, res, next) => {
+export const getFreinds = async (req, res) => {
   try {
     const { userId } = req.params;
     const user = await User.findById(userId);
@@ -58,7 +58,7 @@ export const getFreinds = async (req, res, next) => {
   }
 };
 
-export const addRemoveFriends = async (req, res, next) => {
+export const addRemoveFriends = async (req, res) => {
   try {
     const { userId, friendId } = req.params;
     const user = await User.findById(userId);

@@ -21,7 +21,7 @@ import {
   MenuItem,
   FormControl,
 } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setMode } from "../../store/slices/authSlice";
 
 import { useNavigate } from "react-router-dom";
@@ -32,9 +32,9 @@ function NavbarPage() {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth.user);
   const [logoutUser] = useLogoutUserMutation();
 
+  const { user } = JSON.parse(localStorage.getItem("user"));
   const IsNonMobileSreens = useMediaQuery("(min-width:1000px)");
   const theme = useTheme();
   const neutralLight = theme.palette.neutral.light;
@@ -46,6 +46,7 @@ function NavbarPage() {
   const fullName = `${user.firstName} ${user.lastName}`;
 
   const handleLogout = async () => {
+    localStorage.removeItem("user");
     logoutUser();
     navigate("/");
   };
@@ -65,7 +66,7 @@ function NavbarPage() {
           }}
           onClick={() => navigate("/home")}
         >
-          TClone
+          Shapol
         </Typography>
         {IsNonMobileSreens && (
           <FlexBetween

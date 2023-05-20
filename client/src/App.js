@@ -9,10 +9,12 @@ import { useSelector } from "react-redux";
 import { useMemo } from "react";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
+import IsAuth from "./components/IsAuth";
 
 function App() {
   const mode = useSelector((state) => state.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -20,9 +22,9 @@ function App() {
           <CssBaseline />
           <Routes>
             <Route path="/" element={<LoginPage />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/register" element={IsAuth(<Register />)} />
             <Route path="/home" element={<HomePage />} />
-            <Route path="/profile/:userId" element={<ProfilePage />} />
+            <Route path="/profile/:userId" element={IsAuth(<ProfilePage />)} />
           </Routes>
         </ThemeProvider>
       </BrowserRouter>
