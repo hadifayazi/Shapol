@@ -8,13 +8,10 @@ import { ProfilePicture } from "../../components/ProfilePicture";
 import FlexBetween from "../../components/FlexBetween";
 import WidgetWrapper from "../../components/WidgetWrapper";
 import { useNavigate } from "react-router-dom";
-import { userApi } from "../../store/api/userApi";
+import { useSelector } from "react-redux";
 
 export const UserWidget = () => {
-  // const { data, isFetching, isLoading, isError, error } = useGetMeQuery();
-  const user = userApi.endpoints.getMe.useQueryState(null, {
-    selectFromResult: ({ data }) => data,
-  });
+  const { user } = useSelector((state) => state.auth.user);
   console.log(user);
   const { palette } = useTheme();
   const navigate = useNavigate();

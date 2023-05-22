@@ -21,7 +21,7 @@ import {
   MenuItem,
   FormControl,
 } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setMode } from "../../store/slices/authSlice";
 
 import { useNavigate } from "react-router-dom";
@@ -34,7 +34,7 @@ function NavbarPage() {
   const navigate = useNavigate();
   const [logoutUser] = useLogoutUserMutation();
 
-  const { user } = JSON.parse(localStorage.getItem("user"));
+  const { user } = useSelector((state) => state.auth.user);
   const IsNonMobileSreens = useMediaQuery("(min-width:1000px)");
   const theme = useTheme();
   const neutralLight = theme.palette.neutral.light;
