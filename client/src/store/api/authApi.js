@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setCredentials } from "../slices/authSlice";
+import { userApi } from "./userApi";
 
 const authApi = createApi({
   reducerPath: "api/auth",
@@ -10,6 +10,7 @@ const authApi = createApi({
       return headers;
     },
   }),
+  tagTypes: ["Auth"],
   endpoints: (builder) => ({
     registerUser: builder.mutation({
       query(data) {
@@ -25,6 +26,12 @@ const authApi = createApi({
           credentials: "include",
         };
       },
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          await dispatch(userApi.endpoints.getMe.initiate(null));
+        } catch (error) {}
+      },
     }),
     logoutUser: builder.mutation({
       query() {
@@ -34,27 +41,6 @@ const authApi = createApi({
         };
       },
     }),
-    getMe: builder.query({
-      query() {
-        return {
-          url: "users/me",
-          credentials: "include",
-        };
-      },
-      transformResponse: (response) => {
-        const data = response.user;
-        return data;
-      },
-
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
-          dispatch(setCredentials(data));
-        } catch (error) {
-          console.log(error);
-        }
-      },
-    }),
   }),
 });
 
@@ -62,6 +48,5 @@ export const {
   useRegisterUserMutation,
   useLoginUserMutation,
   useLogoutUserMutation,
-  useGetMeQuery,
 } = authApi;
 export { authApi };

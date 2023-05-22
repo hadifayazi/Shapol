@@ -8,10 +8,14 @@ import { ProfilePicture } from "../../components/ProfilePicture";
 import FlexBetween from "../../components/FlexBetween";
 import WidgetWrapper from "../../components/WidgetWrapper";
 import { useNavigate } from "react-router-dom";
-import { useGetMeQuery } from "../../store/api/authApi";
+import { userApi } from "../../store/api/userApi";
 
 export const UserWidget = () => {
-  const { data } = useGetMeQuery();
+  // const { data, isFetching, isLoading, isError, error } = useGetMeQuery();
+  const user = userApi.endpoints.getMe.useQueryState(null, {
+    selectFromResult: ({ data }) => data,
+  });
+  console.log(user);
   const { palette } = useTheme();
   const navigate = useNavigate();
   const dark = palette.neutral.dark;
@@ -27,8 +31,7 @@ export const UserWidget = () => {
     createdAt,
     friends,
     picturePath,
-  } = data;
-
+  } = user;
   return (
     <WidgetWrapper>
       {/* PROFILEPIC + NAME + FRIENDS*/}
