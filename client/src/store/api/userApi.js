@@ -1,22 +1,33 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { setCredentials } from "../slices/authSlice";
 
-const userApi = createApi({
-  reducerPath: "api/users",
+export const userApi = createApi({
+  reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3000/users/",
+    baseUrl: `http://localhost:3000`,
   }),
+  tagTypes: ["User"],
   endpoints: (builder) => ({
     getMe: builder.query({
-      query(userId) {
+      query() {
         return {
-          url: "me",
-          method: "GET",
+          url: "users/me",
           credentials: "include",
         };
+      },
+      transformResponse: (response) => {
+        const data = response.user;
+        return data;
+      },
+
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setCredentials(data));
+        } catch (error) {
+          console.log(error);
+        }
       },
     }),
   }),
 });
-
-export const { useGetMeQuery } = userApi;
-export { userApi };

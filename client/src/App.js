@@ -22,9 +22,12 @@ function App() {
           <CssBaseline />
           <Routes>
             <Route path="/" element={<LoginPage />} />
-            <Route path="/register" element={IsAuth(<Register />)} />
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/profile/:userId" element={IsAuth(<ProfilePage />)} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/home" element={<IsAuth children={<HomePage />} />} />
+            <Route
+              path="/profile/:userId"
+              element={<IsAuth children={<ProfilePage />} />}
+            />
           </Routes>
         </ThemeProvider>
       </BrowserRouter>
