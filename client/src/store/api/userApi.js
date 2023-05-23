@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setCredentials } from "../slices/authSlice";
 
 export const userApi = createApi({
   reducerPath: "userApi",
@@ -14,19 +13,6 @@ export const userApi = createApi({
           url: "users/me",
           credentials: "include",
         };
-      },
-      transformResponse: (response) => {
-        const data = response.user;
-        return data;
-      },
-
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
-          dispatch(setCredentials(data));
-        } catch (error) {
-          console.log(error);
-        }
       },
     }),
   }),
