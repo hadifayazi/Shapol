@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { userApi } from "./userApi";
 
 const authApi = createApi({
   reducerPath: "api/auth",
@@ -10,7 +9,6 @@ const authApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Auth"],
   endpoints: (builder) => ({
     registerUser: builder.mutation({
       query(data) {
@@ -25,12 +23,6 @@ const authApi = createApi({
           body: user,
           credentials: "include",
         };
-      },
-      async onQueryStarted(args, { dispatch, queryFulfilled }) {
-        try {
-          await queryFulfilled;
-          await dispatch(userApi.endpoints.getMe.initiate(null));
-        } catch (error) {}
       },
     }),
     logoutUser: builder.mutation({
