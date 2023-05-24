@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { setCredentials } from "../slices/authSlice";
 
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `http://localhost:3000`,
   }),
-  tagTypes: ["User"],
   endpoints: (builder) => ({
     getMe: builder.query({
       query() {
@@ -14,6 +14,16 @@ export const userApi = createApi({
           credentials: "include",
         };
       },
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setCredentials(data));
+        } catch (err) {
+          console.log(err);
+        }
+      },
     }),
   }),
 });
+
+export const { useGetMeQuery } = userApi;
