@@ -34,7 +34,8 @@ function NavbarPage() {
   const navigate = useNavigate();
   const [logoutUser] = useLogoutUserMutation();
 
-  const { user } = useSelector((state) => state.auth.user);
+  const { user } = useSelector((state) => state.auth);
+
   const IsNonMobileSreens = useMediaQuery("(min-width:1000px)");
   const theme = useTheme();
   const neutralLight = theme.palette.neutral.light;
@@ -46,7 +47,7 @@ function NavbarPage() {
   const fullName = `${user.firstName} ${user.lastName}`;
 
   const handleLogout = async () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("token");
     logoutUser();
     navigate("/");
   };

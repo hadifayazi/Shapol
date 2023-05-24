@@ -17,7 +17,7 @@ export const LoginPage = () => {
   if (isSuccess) {
     dispatch(setCredentials(data));
     navigate("/home");
-    localStorage.setItem("token", data.token);
+    localStorage.setItem("token", JSON.stringify(data.token));
   } else if (isError || error) {
     errorRef.current = error.data.message;
   }

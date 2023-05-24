@@ -18,10 +18,12 @@ export const getAllUsers = async (req, res) => {
 export const getMe = async (req, res) => {
   try {
     const user = req.user;
+    const token = req.cookies.jwt;
 
     res.status(200).json({
       message: "success",
       user,
+      token,
     });
   } catch (err) {
     res.status(400).json({

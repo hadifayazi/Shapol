@@ -11,8 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export const UserWidget = () => {
-  const { user } = useSelector((state) => state.auth.user);
-  console.log(user);
+  const { user } = useSelector((state) => state.auth);
   const { palette } = useTheme();
   const navigate = useNavigate();
   const dark = palette.neutral.dark;

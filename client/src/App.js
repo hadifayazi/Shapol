@@ -28,6 +28,7 @@ function App() {
               path="/profile/:userId"
               element={<IsAuth children={<ProfilePage />} />}
             />
+            <Route path="/profile" element={<ProfilePage />} />
           </Routes>
         </ThemeProvider>
       </BrowserRouter>
