@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRegisterUserMutation } from "../../store/api/authApi";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import { Typography } from "@mui/material";
@@ -11,14 +11,17 @@ function Register() {
   const navigate = useNavigate();
   const [registerUser, { data, isSuccess, isError, error }] =
     useRegisterUserMutation();
+  const errorMessage = useRef("");
 
-  let errorMessage;
-  if (isSuccess) {
-    dispatch(setCredentials(data));
-    navigate(`/profile/${data.user._id}`);
-  } else if (isError || error) {
-    errorMessage = error.data.message;
-  }
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(setCredentials(data));
+      localStorage.setItem("token", JSON.stringify(data.token));
+      navigate(`/profile/${data.user._id}`);
+    } else if (isError || error) {
+      errorMessage.current = error.data.message;
+    }
+  }, [isSuccess, isError, errorMessage, error, data, dispatch, navigate]);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -28,6 +31,7 @@ function Register() {
     passwordConfirmation: "",
     location: "",
     picture: "",
+    bio: "",
   });
 
   const {
@@ -37,6 +41,7 @@ function Register() {
     password,
     passwordConfirmation,
     location,
+    bio,
   } = formData;
 
   const onChange = (event) => {
@@ -54,6 +59,7 @@ function Register() {
       password,
       passwordConfirmation,
       location,
+      bio,
     };
     registerUser(userData);
   };
@@ -61,7 +67,7 @@ function Register() {
   return (
     <>
       <section className="heading">
-        <Typography>{errorMessage}</Typography>
+        <Typography>{errorMessage.current}</Typography>
         <h1>
           <HowToRegIcon /> Register
         </h1>
@@ -135,6 +141,17 @@ function Register() {
               name="location"
               value={location}
               placeholder="location"
+              onChange={onChange}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control"
+              id="bio"
+              name="bio"
+              value={bio}
+              placeholder="bio"
               onChange={onChange}
             />
           </div>

@@ -28,6 +28,9 @@ export const UserWidget = () => {
     friends,
     picturePath,
   } = user;
+
+  const JoinedDate = `${createdAt.split("-")[1]} / ${createdAt.split("-")[0]} `;
+
   return (
     <WidgetWrapper>
       {/* PROFILEPIC + NAME + FRIENDS*/}
@@ -64,7 +67,7 @@ export const UserWidget = () => {
       <Box p="1rem 0">
         <Box display="flex" alignItems="center" gap="1rem">
           <Description fontSize="large" sx={{ color: main }} />
-          <Typography color={medium}>{bio}</Typography>
+          <Typography color={medium}>Bio:{bio}</Typography>
         </Box>
         <Box display="flex" alignItems="center" gap="1rem" mb="0.5rem">
           <LocationOnOutlined fontSize="large" sx={{ color: main }} />
@@ -79,7 +82,7 @@ export const UserWidget = () => {
         <FlexBetween mb="0.5rem">
           <Typography color={medium}>Joined:</Typography>
           <Typography color={main} fontWeight="500">
-            {createdAt}
+            {JoinedDate}
           </Typography>
         </FlexBetween>
       </Box>

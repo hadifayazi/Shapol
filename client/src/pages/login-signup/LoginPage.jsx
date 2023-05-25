@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import LoginIcon from "@mui/icons-material/Login";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -14,13 +14,15 @@ export const LoginPage = () => {
   const [loginUser, { data, isSuccess, isError, error }] =
     useLoginUserMutation();
 
-  if (isSuccess) {
-    dispatch(setCredentials(data));
-    navigate("/home");
-    localStorage.setItem("token", JSON.stringify(data.token));
-  } else if (isError || error) {
-    errorRef.current = error.data.message;
-  }
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(setCredentials(data));
+      localStorage.setItem("token", JSON.stringify(data.token));
+      navigate("/home");
+    } else if (isError || error) {
+      errorRef.current = error.data.message;
+    }
+  }, [data, dispatch, errorRef, error, isError, isSuccess, navigate]);
 
   const [formData, setFormData] = useState({
     email: "",
