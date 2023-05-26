@@ -29,12 +29,12 @@ app.use(
   })
 );
 app.use(morgan("common"));
-app.use("/assets", express.static(path.join(__dirname, "public/assets")));
+app.use("/assets", express.static(path.join(__dirname, "./public/assets")));
 
 //FILE STORAGE
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "/public/assets");
+    cb(null, "./public/assets");
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
@@ -44,7 +44,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 //Routes with file
-app.post("/auth/signup", upload.single("picture"), signup);
+app.post("/auth/signup", upload.single("picturePath"), signup);
 
 //Routes
 app.use("/auth", authRoutes);

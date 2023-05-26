@@ -8,7 +8,7 @@ export const ProfilePicture = ({ image, size = "60px" }) => {
         width={size}
         height={size}
         alt="User Profile picyure"
-        src={`https://localhost:3000/assets/${image}`}
+        src={`http://localhost:3000/assets/${image}`}
       />
     </Box>
   );
