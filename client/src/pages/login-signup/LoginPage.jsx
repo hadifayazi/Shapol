@@ -1,10 +1,12 @@
-import { useState, useRef, useEffect } from "react";
-import LoginIcon from "@mui/icons-material/Login";
+import { useRef, useEffect } from "react";
+import AssignmentIndRoundedIcon from "@mui/icons-material/AssignmentIndRounded";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useLoginUserMutation } from "../../store/api/authApi";
-import { Typography } from "@mui/material";
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { setCredentials } from "../../store/slices/authSlice";
+import * as yup from "yup";
+import { Formik } from "formik";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
@@ -13,7 +15,7 @@ export const LoginPage = () => {
 
   const [loginUser, { data, isSuccess, isError, error }] =
     useLoginUserMutation();
-
+  console.log(data);
   useEffect(() => {
     if (isSuccess) {
       dispatch(setCredentials(data));
@@ -24,73 +26,95 @@ export const LoginPage = () => {
     }
   }, [data, dispatch, errorRef, error, isError, isSuccess, navigate]);
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+  const loginSchema = yup.object().shape({
+    email: yup.string().email().required(),
+    password: yup.string().required(),
   });
 
-  const { email, password } = formData;
-
-  const onChange = (e) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
+  const initialValues = {
+    email: "",
+    password: "",
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const userData = {
-      email,
-      password,
-    };
-    loginUser(userData);
+  const handleFormSubmit = (values, onSubmitProps) => {
+    loginUser(values);
   };
 
   return (
-    <>
-      <section className="heading">
-        <h1>
-          <LoginIcon /> Login
-        </h1>
-        <p>Welcome to Shapol, your idea, your voice</p>
-      </section>
-
-      <section className="form">
-        <form onSubmit={onSubmit}>
-          <div className="form-group">
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              name="email"
-              value={email}
-              placeholder="Enter your email"
-              onChange={onChange}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              name="password"
-              autoComplete="on"
-              value={password}
-              placeholder="Enter password"
-              onChange={onChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <button type="submit" className="btn btn-block">
-              Submit
-            </button>
-          </div>
-        </form>
-        <Typography>{errorRef.current}</Typography>
-      </section>
-    </>
+    <Stack spacing={2} margin={4}>
+      <Formik
+        onSubmit={handleFormSubmit}
+        initialValues={initialValues}
+        validationSchema={loginSchema}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleBlur,
+          handleChange,
+          handleSubmit,
+          resetForm,
+        }) => (
+          <form onSubmit={handleSubmit}>
+            <Stack>
+              <Box textAlign="center">
+                <AssignmentIndRoundedIcon style={{ fontSize: 50 }} />
+              </Box>
+              <Typography variant="h3" textAlign="center">
+                Please Login
+              </Typography>
+              <TextField
+                name="email"
+                label="Email"
+                type="email"
+                variant="standard"
+                value={values.email || ""}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={Boolean(touched.email) && Boolean(errors.email)}
+                helperText={touched.email && errors.email}
+              />
+              <TextField
+                name="password"
+                label="Password"
+                type="password"
+                variant="standard"
+                value={values.password || ""}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                autoComplete="on"
+                error={Boolean(touched.password) && Boolean(errors.password)}
+                helperText={touched.password && errors.password}
+              />
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{ marginTop: "20px" }}
+              >
+                Login
+              </Button>
+            </Stack>
+            <Box sx={{ display: "flex" }} mt={4}>
+              <Typography>Don't have an account?</Typography>
+              <Typography
+                ml={1}
+                onClick={() => {
+                  navigate("/register");
+                }}
+                sx={{
+                  textDecoration: "underline",
+                  color: "skyblue",
+                  cursor: "pointer",
+                }}
+              >
+                Signup here
+              </Typography>
+            </Box>
+          </form>
+        )}
+      </Formik>
+    </Stack>
   );
 };
 

@@ -72,10 +72,9 @@ const RegisterForm = () => {
           padding: 4,
         }}
       >
-        <Box>
-          <Typography variant="h1" display="inline">
-            <HowToRegSharp /> Register
-          </Typography>
+        <Box textAlign="center">
+          <HowToRegSharp style={{ fontSize: 50 }} />
+          <Typography variant="h1">Register</Typography>
           <p>Please create an account</p>
         </Box>
         <Formik
@@ -221,6 +220,22 @@ const RegisterForm = () => {
                 >
                   Signup
                 </Button>
+                <Box sx={{ display: "flex" }} mt={4}>
+                  <Typography>Don't have an account?</Typography>
+                  <Typography
+                    ml={1}
+                    onClick={() => {
+                      navigate("/");
+                    }}
+                    sx={{
+                      textDecoration: "underline",
+                      color: "skyblue",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Login here
+                  </Typography>
+                </Box>
               </Stack>
             </form>
           )}
