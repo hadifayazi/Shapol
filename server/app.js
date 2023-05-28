@@ -6,7 +6,7 @@ import path from "path";
 import morgan from "morgan";
 import { fileURLToPath } from "url";
 import cookieParser from "cookie-parser";
-import { signup } from "./constrollers/authContoller.js";
+import { signup, verifyToken } from "./constrollers/authContoller.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
@@ -46,7 +46,7 @@ const upload = multer({ storage });
 
 //Routes with file
 app.post("/auth/signup", upload.single("picturePath"), signup);
-app.post("/posts", upload.single("photoPath"), createPost);
+app.post("/posts", upload.single("photoPath"), verifyToken, createPost);
 
 //Routes
 app.use("/auth", authRoutes);
