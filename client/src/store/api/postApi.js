@@ -8,7 +8,12 @@ const postApi = createApi({
   endpoints: (builder) => ({
     createPost: builder.mutation({
       query(post) {
-        return { url: "posts", method: "POST", credentials: "include" };
+        return {
+          url: "posts",
+          method: "POST",
+          credentials: "include",
+          body: post,
+        };
       },
     }),
   }),
