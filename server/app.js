@@ -10,6 +10,7 @@ import { signup } from "./constrollers/authContoller.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
+import { createPost } from "./constrollers/postController.js";
 
 const app = express();
 
@@ -45,6 +46,7 @@ const upload = multer({ storage });
 
 //Routes with file
 app.post("/auth/signup", upload.single("picturePath"), signup);
+app.post("/posts", upload.single("photoPath"), createPost);
 
 //Routes
 app.use("/auth", authRoutes);
