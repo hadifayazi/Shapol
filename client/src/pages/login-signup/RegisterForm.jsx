@@ -16,7 +16,6 @@ const RegisterForm = () => {
   const errRef = useRef("");
   const [registerUser, { data, isSuccess, isError, error }] =
     useRegisterUserMutation();
-  console.log(data);
 
   const SignupSchema = yup.object().shape({
     firstName: yup.string().required(),
@@ -221,7 +220,7 @@ const RegisterForm = () => {
                   Signup
                 </Button>
                 <Box sx={{ display: "flex" }} mt={4}>
-                  <Typography>Don't have an account?</Typography>
+                  <Typography>Already have an account?</Typography>
                   <Typography
                     ml={1}
                     onClick={() => {

@@ -15,7 +15,7 @@ export const LoginPage = () => {
 
   const [loginUser, { data, isSuccess, isError, error }] =
     useLoginUserMutation();
-  console.log(data);
+
   useEffect(() => {
     if (isSuccess) {
       dispatch(setCredentials(data));
