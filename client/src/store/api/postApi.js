@@ -16,8 +16,17 @@ const postApi = createApi({
         };
       },
     }),
+    getMyPosts: builder.query({
+      query(userId) {
+        return {
+          url: `posts/${userId}`,
+          method: "GET",
+          credentials: "include",
+        };
+      },
+    }),
   }),
 });
 
-export const { useCreatePostMutation } = postApi;
+export const { useCreatePostMutation, useGetMyPostsQuery } = postApi;
 export { postApi };
