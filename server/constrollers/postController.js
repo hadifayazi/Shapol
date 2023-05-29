@@ -17,7 +17,7 @@ export const createPost = async (req, res) => {
       comments: {},
     });
 
-    res.statusCode(201).json({ data: newPost });
+    res.status(201).json({ data: newPost });
   } catch (error) {
     res.status(400).json({ message: error.message || error });
   }

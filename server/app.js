@@ -6,10 +6,11 @@ import path from "path";
 import morgan from "morgan";
 import { fileURLToPath } from "url";
 import cookieParser from "cookie-parser";
-import { signup } from "./constrollers/authContoller.js";
+import { signup, verifyToken } from "./constrollers/authContoller.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
+import { createPost } from "./constrollers/postController.js";
 
 const app = express();
 
@@ -29,12 +30,12 @@ app.use(
   })
 );
 app.use(morgan("common"));
-app.use("/assets", express.static(path.join(__dirname, "public/assets")));
+app.use("/assets", express.static(path.join(__dirname, "./public/assets")));
 
 //FILE STORAGE
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "/public/assets");
+    cb(null, "./public/assets");
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
@@ -44,7 +45,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 //Routes with file
-app.post("/auth/signup", upload.single("picture"), signup);
+app.post("/auth/signup", upload.single("picturePath"), signup);
+app.post("/posts", upload.single("photoPath"), verifyToken, createPost);
 
 //Routes
 app.use("/auth", authRoutes);

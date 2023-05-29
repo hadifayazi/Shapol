@@ -3,7 +3,7 @@ import LoginPage from "./pages/login-signup/LoginPage";
 import HomePage from "./pages/homaPage/HomePage";
 import ProfilePage from "./pages/profilePage/ProfilePage";
 import "react-toastify/dist/ReactToastify.css";
-import Register from "./pages/login-signup/Register";
+import RegisterForm from "./pages/login-signup/RegisterForm";
 import { themeSettings } from "./theme";
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
@@ -22,7 +22,7 @@ function App() {
           <CssBaseline />
           <Routes>
             <Route path="/" element={<LoginPage />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/register" element={<RegisterForm />} />
             <Route path="/home" element={<IsAuth children={<HomePage />} />} />
             <Route
               path="/profile/:userId"

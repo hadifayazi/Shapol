@@ -5,11 +5,13 @@ import { authApi } from "./api/authApi";
 import { userApi } from "./api/userApi";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
+import { postApi } from "./api/postApi";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   [authApi.reducerPath]: authApi.reducer,
   [userApi.reducerPath]: userApi.reducer,
+  [postApi.reducerPath]: postApi.reducer,
 });
 const persistConfig = {
   key: "root",
@@ -22,7 +24,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(authApi.middleware, userApi.middleware),
+    }).concat(authApi.middleware, userApi.middleware, postApi.middleware),
 });
 
 setupListeners(store.dispatch);

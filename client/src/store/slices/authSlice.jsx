@@ -18,8 +18,11 @@ const authSlice = createSlice({
     setMode: (state) => {
       state.mode = state.mode === "light" ? "dark" : "light";
     },
+    setPosts: (state, action) => {
+      state.posts = action.payload;
+    },
   },
 });
 
-export const { setCredentials, setMode } = authSlice.actions;
+export const { setCredentials, setMode, setPosts } = authSlice.actions;
 export const authReducer = authSlice.reducer;

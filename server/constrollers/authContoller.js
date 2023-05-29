@@ -1,6 +1,5 @@
 import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
-import { promisify } from "util";
 
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
