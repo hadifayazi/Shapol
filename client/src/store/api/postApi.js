@@ -25,8 +25,19 @@ const postApi = createApi({
         };
       },
     }),
+    getLikes: builder.query({
+      query(postId, loggedInUserId) {
+        return {
+          url: `posts/${postId}/like`,
+          method: "PATCH",
+          credentials: "include",
+          body: loggedInUserId,
+        };
+      },
+    }),
   }),
 });
 
-export const { useCreatePostMutation, useGetMyPostsQuery } = postApi;
+export const { useCreatePostMutation, useGetMyPostsQuery, useGetLikesQuery } =
+  postApi;
 export { postApi };
