@@ -25,7 +25,7 @@ const postApi = createApi({
         };
       },
     }),
-    getLikes: builder.query({
+    getLikes: builder.mutation({
       query(postId, loggedInUserId) {
         return {
           url: `posts/${postId}/like`,
@@ -38,6 +38,9 @@ const postApi = createApi({
   }),
 });
 
-export const { useCreatePostMutation, useGetMyPostsQuery, useGetLikesQuery } =
-  postApi;
+export const {
+  useCreatePostMutation,
+  useGetMyPostsQuery,
+  useGetLikesMutation,
+} = postApi;
 export { postApi };
