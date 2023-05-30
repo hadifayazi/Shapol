@@ -1,4 +1,6 @@
-export const ProfilePage = () => {
-  return <div>ProfilePage</div>;
+import FriendHeader from "../../components/FriendHeader";
+
+const ProfilePage = () => {
+  return <FriendHeader />;
 };
 export default ProfilePage;

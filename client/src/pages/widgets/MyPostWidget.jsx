@@ -17,7 +17,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useCreatePostMutation } from "../../store/api/postApi";
 import WidgetWrapper from "../../components/WidgetWrapper";
-import { ProfilePicture } from "../../components/ProfilePicture";
 import { setPosts } from "../../store/slices/authSlice";
 
 const MyPostWidget = () => {
@@ -57,7 +56,6 @@ const MyPostWidget = () => {
     <WidgetWrapper>
       <>{errRef.current}</>
       <FlexBetween gap="1.5rem">
-        <ProfilePicture image={user.picturePath} />
         <InputBase
           placeholder="You are saying..."
           onChange={(e) => setPost(e.target.value)}

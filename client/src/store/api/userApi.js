@@ -4,13 +4,13 @@ import { setCredentials } from "../slices/authSlice";
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `http://localhost:3000`,
+    baseUrl: `http://localhost:3000/users/`,
   }),
   endpoints: (builder) => ({
     getMe: builder.query({
       query() {
         return {
-          url: "users/me",
+          url: "me",
           credentials: "include",
         };
       },
@@ -23,7 +23,16 @@ export const userApi = createApi({
         }
       },
     }),
+    addRemoveFriend: builder.mutation({
+      query(userId, friendId) {
+        return {
+          url: `${userId}/${friendId}`,
+          method: "PATCH",
+          credentials: "include",
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetMeQuery } = userApi;
+export const { useGetMeQuery, useAddRemoveFriendMutation } = userApi;

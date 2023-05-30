@@ -78,13 +78,11 @@ export const UserWidget = () => {
       <Divider />
 
       {/* JOIN /createdat */}
-      <Box p="1rem 0">
-        <FlexBetween mb="0.5rem">
-          <Typography color={medium}>Joined:</Typography>
-          <Typography color={main} fontWeight="500">
-            {JoinedDate}
-          </Typography>
-        </FlexBetween>
+      <Box p="1rem 0" sx={{ display: "flex" }}>
+        <Typography color={medium}>Joined:</Typography>
+        <Typography color={main} fontWeight="500" ml={1}>
+          {JoinedDate}
+        </Typography>
       </Box>
     </WidgetWrapper>
   );
