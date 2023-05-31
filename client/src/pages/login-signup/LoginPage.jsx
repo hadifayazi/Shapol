@@ -7,6 +7,7 @@ import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { setCredentials } from "../../store/slices/authSlice";
 import * as yup from "yup";
 import { Formik } from "formik";
+import { ToastContainer, toast } from "react-toastify";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ export const LoginPage = () => {
       localStorage.setItem("token", JSON.stringify(data.token));
       navigate("/home");
     } else if (isError || error) {
-      errorRef.current = error.data.message;
+      errorRef.current = toast(error.data.message);
     }
   }, [data, dispatch, errorRef, error, isError, isSuccess, navigate]);
 
@@ -42,6 +43,9 @@ export const LoginPage = () => {
 
   return (
     <Stack spacing={2} margin={4}>
+      <>
+        <ToastContainer />
+      </>
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
