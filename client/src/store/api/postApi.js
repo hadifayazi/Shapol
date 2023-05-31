@@ -15,6 +15,19 @@ const postApi = createApi({
           body: post,
         };
       },
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          const newPost = data.data;
+          dispatch(
+            postApi.util.updateQueryData("getFeedPosts", undefined, (draft) => {
+              draft?.data?.push(newPost);
+            })
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      },
     }),
     getMyPosts: builder.query({
       query(userId) {
