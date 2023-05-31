@@ -35,6 +35,15 @@ const postApi = createApi({
         };
       },
     }),
+    getFeedPosts: builder.query({
+      query() {
+        return {
+          url: "posts",
+          method: "GET",
+          credentials: "include",
+        };
+      },
+    }),
   }),
 });
 
@@ -42,5 +51,6 @@ export const {
   useCreatePostMutation,
   useGetMyPostsQuery,
   useGetLikesMutation,
+  useGetFeedPostsQuery,
 } = postApi;
 export { postApi };
