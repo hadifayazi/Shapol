@@ -15,6 +15,19 @@ const postApi = createApi({
           body: post,
         };
       },
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          const newPost = data.data;
+          dispatch(
+            postApi.util.updateQueryData("getFeedPosts", undefined, (draft) => {
+              draft?.data?.push(newPost);
+            })
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      },
     }),
     getMyPosts: builder.query({
       query(userId) {
@@ -25,7 +38,7 @@ const postApi = createApi({
         };
       },
     }),
-    getLikes: builder.query({
+    getLikes: builder.mutation({
       query(postId, loggedInUserId) {
         return {
           url: `posts/${postId}/like`,
@@ -35,9 +48,22 @@ const postApi = createApi({
         };
       },
     }),
+    getFeedPosts: builder.query({
+      query() {
+        return {
+          url: "posts",
+          method: "GET",
+          credentials: "include",
+        };
+      },
+    }),
   }),
 });
 
-export const { useCreatePostMutation, useGetMyPostsQuery, useGetLikesQuery } =
-  postApi;
+export const {
+  useCreatePostMutation,
+  useGetMyPostsQuery,
+  useGetLikesMutation,
+  useGetFeedPostsQuery,
+} = postApi;
 export { postApi };
