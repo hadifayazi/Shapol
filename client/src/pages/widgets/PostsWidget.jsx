@@ -3,17 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "../../store/slices/authSlice";
 import { useGetFeedPostsQuery } from "../../store/api/postApi";
 import SinglePostWidget from "./SinglePostWidget";
+import { nanoid } from "nanoid";
 
 const PostsWidget = () => {
   const dispatch = useDispatch();
-  const { posts } = useSelector((state) => state.auth);
-  //   console.log(posts.posts.data);
+  const posts = useSelector((state) => state.auth.posts);
   const { data, isSuccess, isError, error } = useGetFeedPostsQuery();
 
   useEffect(() => {
     if (isSuccess) {
-      console.log(data.data);
-      dispatch(setPosts({ posts: data }));
+      dispatch(setPosts(data));
     }
     if (isError || error) {
       console.log(error);
@@ -22,13 +21,13 @@ const PostsWidget = () => {
 
   return (
     <>
-      {posts?.posts?.data?.map(
+      {posts?.map(
         ({
           _id,
           userId,
           firstName,
           lastName,
-          discription,
+          description,
           location,
           photoPath,
           userPhotoPath,
@@ -36,11 +35,11 @@ const PostsWidget = () => {
           comments,
         }) => (
           <SinglePostWidget
-            key={_id}
+            key={nanoid() + _id}
             postId={_id}
             userId={userId}
             name={`${firstName} ${lastName}`}
-            description={discription}
+            description={description}
             location={location}
             photoPath={photoPath}
             userPhotoPath={userPhotoPath}
@@ -54,9 +53,3 @@ const PostsWidget = () => {
 };
 
 export default PostsWidget;
-
-// const PostsWidget = () => {
-//   return <div>PostsWidget</div>;
-// };
-
-// export default PostsWidget;

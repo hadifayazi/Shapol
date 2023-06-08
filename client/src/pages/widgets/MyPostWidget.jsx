@@ -17,7 +17,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useCreatePostMutation } from "../../store/api/postApi";
 import WidgetWrapper from "../../components/WidgetWrapper";
-import { setPosts } from "../../store/slices/authSlice";
+import { setSinglePost } from "../../store/slices/authSlice";
 
 const MyPostWidget = () => {
   const [post, setPost] = useState("");
@@ -29,20 +29,20 @@ const MyPostWidget = () => {
   const userId = user._id;
   const [createPost, { data, isSuccess, isError, error }] =
     useCreatePostMutation();
-
+  console.log(data);
   useEffect(() => {
     if (isError || error) {
       errRef.current = error.message;
     }
     if (isSuccess) {
-      dispatch(setPosts({ data }));
+      dispatch(setSinglePost(data));
     }
   }, [dispatch, data, isSuccess, isError, error]);
 
   const handlePost = () => {
     const formData = new FormData();
     formData.append("userId", userId);
-    formData.append("discription", post);
+    formData.append("description", post);
     if (image) {
       formData.append("picture", image);
       formData.append("photoPath", image.name);
