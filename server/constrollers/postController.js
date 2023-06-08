@@ -3,21 +3,21 @@ import Post from "../models/postModel.js";
 
 export const createPost = async (req, res) => {
   try {
-    const { userId, discription, photoPath } = req.body;
+    const { userId, description, photoPath } = req.body;
     const user = await User.findById(userId);
 
     const newPost = await Post.create({
       userId: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
-      discription,
+      description,
       photoPath,
-      userPhotoPath: user.photoPath,
-      likes: {},
+      userPhotoPath: user.picturePath,
+      likes: [],
       comments: {},
     });
 
-    res.status(201).json({ data: newPost });
+    res.status(201).json(newPost);
   } catch (error) {
     res.status(400).json({ message: error.message || error });
   }
@@ -26,7 +26,7 @@ export const createPost = async (req, res) => {
 export const getFeedPost = async (req, res) => {
   try {
     const posts = await Post.find();
-    res.status(200).json({ data: posts });
+    res.status(200).json(posts);
   } catch (error) {
     res.status(404).json({ message: error.message || error });
   }
@@ -36,7 +36,7 @@ export const getUserPost = async (req, res) => {
   try {
     const { userId } = req.params;
     const posts = await Post.findById(userId);
-    res.status(200).json({ data: posts });
+    res.status(200).json(posts);
   } catch (error) {
     res.status(404).json({ message: error.message || error });
   }
@@ -44,23 +44,23 @@ export const getUserPost = async (req, res) => {
 
 export const likesPost = async (req, res) => {
   try {
-    //post id
     const { id } = req.params;
     const { userId } = req.body;
+
     const post = await Post.findById(id);
-    const isLiked = post.likes.get(userId);
+    console.log(post);
 
-    if (isLiked) {
-      post.likes.delete(userId);
+    const index = post.likes.findIndex((item) => item.equals(userId));
+
+    if (index !== -1) {
+      // ObjectId exists in the array, remove it
+      post.likes.splice(index, 1);
     } else {
-      post.likes.set(userId, true);
+      // ObjectId doesn't exist in the array, add it
+      post.likes.push(userId);
     }
-
-    const updatedPost = await Post.findByIdAndUpdate(
-      id,
-      { likes: post.likes },
-      { new: true }
-    );
+    const updatedPost = await post.save();
+    console.log("Updated post==", updatedPost);
 
     res.status(200).json(updatedPost);
   } catch (error) {
