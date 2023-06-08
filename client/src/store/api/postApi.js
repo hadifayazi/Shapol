@@ -18,10 +18,10 @@ const postApi = createApi({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          const newPost = data.data;
+          const newPost = data;
           dispatch(
             postApi.util.updateQueryData("getFeedPosts", undefined, (draft) => {
-              draft?.data?.push(newPost);
+              draft?.push(newPost);
             })
           );
         } catch (error) {
@@ -39,13 +39,24 @@ const postApi = createApi({
       },
     }),
     getLikes: builder.mutation({
-      query(postId, loggedInUserId) {
+      query({ postId, userId }) {
         return {
           url: `posts/${postId}/like`,
           method: "PATCH",
           credentials: "include",
-          body: loggedInUserId,
+          body: { userId },
         };
+      },
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        const { data } = await queryFulfilled;
+        const updatedPost = data;
+
+        dispatch(
+          postApi.util.updateQueryData("getFeedPosts", undefined, (draft) => {
+            const post = draft?.find((post) => post._id === args.postId);
+            post.likes = updatedPost.likes;
+          })
+        );
       },
     }),
     getFeedPosts: builder.query({
