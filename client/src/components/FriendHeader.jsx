@@ -11,7 +11,7 @@ import { useAddRemoveFriendMutation } from "../store/api/userApi";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const FriendHeader = ({ friendId, friendPicturePath, name, location }) => {
+const FriendHeader = ({ friendId, picturePath, name, location }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
@@ -32,8 +32,8 @@ const FriendHeader = ({ friendId, friendPicturePath, name, location }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <FlexBetween m={2} sx={{ border: "1px solid gray", borderRadius: "5px" }}>
-      <Stack direction="row" m={2}>
+    <FlexBetween sx={{ borderRadius: "5px" }}>
+      <Stack direction="row">
         <Box
           onClick={() => {
             navigate(`/profile/${friendId}`);
@@ -42,7 +42,7 @@ const FriendHeader = ({ friendId, friendPicturePath, name, location }) => {
             cursor: "pointer",
           }}
         >
-          <ProfilePicture image={friendPicturePath} size="55px" />
+          <ProfilePicture image={picturePath} size="55px" />
         </Box>
         <Stack
           m={1}
