@@ -44,10 +44,11 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.all("*", (req, res, next) => {
-  console.log(req.body);
-  next();
-});
+// app.all("*", (req, res, next) => {
+//   console.log("req.body========", req.body);
+//   console.log("req.params ======", req.params);
+//   next();
+// });
 
 //Routes with file
 app.post("/auth/signup", upload.single("picturePath"), signup);
