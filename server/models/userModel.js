@@ -29,14 +29,14 @@ const userSchema = new Schema(
       min: 5,
       select: false,
     },
-    passwordConfirmation: {
-      type: String,
-      required: [true, "Please confirm your password!"],
-      validate: function (el) {
-        return el === this.password;
-      },
-      message: "Password should be the same!",
-    },
+    // passwordConfirmation: {
+    //   type: String,
+    //   required: [true, "Please confirm your password!"],
+    //   validate: function (el) {
+    //     return el === this.password;
+    //   },
+    //   message: "Password should be the same!",
+    // },
 
     passwordChangedAt: Date,
     passwordResetToken: String,

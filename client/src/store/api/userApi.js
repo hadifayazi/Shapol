@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setCredentials } from "../slices/authSlice";
+import { setCredentials, setFriends } from "../slices/authSlice";
 
 export const userApi = createApi({
   reducerPath: "userApi",
@@ -24,15 +24,39 @@ export const userApi = createApi({
       },
     }),
     addRemoveFriend: builder.mutation({
-      query(userId, friendId) {
+      query({ userId, friendId }) {
         return {
           url: `${userId}/${friendId}`,
           method: "PATCH",
           credentials: "include",
         };
       },
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        const { data } = await queryFulfilled;
+        dispatch(setFriends(data.friends));
+        dispatch(
+          userApi.util.updateQueryData("getFriends", undefined, (draft) => {
+            console.log(JSON.stringify(draft));
+          })
+        );
+      },
+    }),
+
+    getFriends: builder.query({
+      query: (userId) => {
+        return {
+          url: `${userId}/friends`,
+          method: "GET",
+          credentials: "include",
+        };
+      },
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        const { data } = await queryFulfilled;
+        console.log(data);
+      },
     }),
   }),
 });
 
-export const { useGetMeQuery, useAddRemoveFriendMutation } = userApi;
+export const { useGetMeQuery, useAddRemoveFriendMutation, useGetFriendsQuery } =
+  userApi;
