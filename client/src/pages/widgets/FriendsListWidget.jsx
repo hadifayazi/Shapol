@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import FriendHeader from "../../components/FriendHeader";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,6 +34,7 @@ const FriendsListWidget = ({ userId }) => {
 
   return (
     <WidgetWrapper>
+      <Typography marginBottom={2}>Friends List:</Typography>
       {friends.length > 0 ? (
         renderedFriends
       ) : (
