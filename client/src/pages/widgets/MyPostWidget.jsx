@@ -20,8 +20,8 @@ import WidgetWrapper from "../../components/WidgetWrapper";
 import { setSinglePost } from "../../store/slices/authSlice";
 
 const MyPostWidget = () => {
-  const [post, setPost] = useState("");
   const dispatch = useDispatch();
+  const [post, setPost] = useState("");
   const [isImage, setIsImage] = useState(false);
   const [image, setImage] = useState(null);
   const errRef = useRef("");
@@ -29,7 +29,7 @@ const MyPostWidget = () => {
   const userId = user._id;
   const [createPost, { data, isSuccess, isError, error }] =
     useCreatePostMutation();
-  console.log(data);
+
   useEffect(() => {
     if (isError || error) {
       errRef.current = error.message;
