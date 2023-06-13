@@ -42,7 +42,7 @@ const RegisterForm = () => {
     if (isSuccess) {
       dispatch(setCredentials(data));
       localStorage.setItem("token", JSON.stringify(data.token));
-      navigate(`/profile/${data.user._id}`);
+      navigate(`/`);
     } else if (isError || error) {
       errRef.current = error.message;
     }

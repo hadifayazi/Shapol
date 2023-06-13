@@ -1,6 +1,6 @@
 import FlexBetween from "../../components/FlexBetween";
 import { useDispatch, useSelector } from "react-redux";
-import { setPost } from "../../store/slices/authSlice";
+import { setSinglePost } from "../../store/slices/authSlice";
 import { useEffect, useState } from "react";
 import { useGetLikesMutation } from "../../store/api/postApi";
 import WidgetWrapper from "../../components/WidgetWrapper";
@@ -26,30 +26,28 @@ const SinglePostWidget = ({
 }) => {
   const dispatch = useDispatch();
   const [isComments, setIsComments] = useState(false);
-  const { user } = useSelector((state) => state.auth);
-  const loggedInUserId = user._id;
-  const isLiked = Boolean(likes[loggedInUserId]);
-  const likesCount = Object.keys(likes).length;
-  const [getLikes, { data, isSuccess, isError, error }] = useGetLikesMutation(
-    postId,
-    loggedInUserId
-  );
+  const loggedInUserId = useSelector((state) => state.auth.user._id);
+  const isLiked = likes.includes(userId);
+  const LikeCount = likes.length;
+  const [getLikes, { data, isSuccess, isError, error }] = useGetLikesMutation({
+    postId: postId,
+    userId: loggedInUserId,
+  });
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(setPost({ post: data }));
-      console.log(data);
+      dispatch(setSinglePost(data));
     }
     if (isError || error) {
       console.log(error);
     }
-  }, [isSuccess, data, dispatch, isError, error]);
+  }, [isSuccess, data, dispatch, isError, error, userId]);
 
   return (
-    <WidgetWrapper>
+    <WidgetWrapper sx={{ border: "2px solid #EEEEEE ", margin: "2px 2px" }}>
       <FriendHeader
         friendId={userId}
-        friendPicturePath={userPhotoPath}
+        picturePath={userPhotoPath}
         name={name}
         location={location}
       />
@@ -66,14 +64,22 @@ const SinglePostWidget = ({
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">
-            <IconButton onClick={() => getLikes()}>
+            <IconButton
+              type="button"
+              onClick={() => {
+                getLikes({
+                  postId: postId,
+                  userId: loggedInUserId,
+                });
+              }}
+            >
               {isLiked ? (
                 <FavoriteOutlined sx={{ color: "red" }} />
               ) : (
                 <FavoriteBorderOutlined />
               )}
             </IconButton>
-            <Typography>{likesCount}</Typography>
+            <Typography>{LikeCount}</Typography>
           </FlexBetween>
           <FlexBetween gap="0.3rem">
             <IconButton onClick={() => setIsComments(!isComments)}>

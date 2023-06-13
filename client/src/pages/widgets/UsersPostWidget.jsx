@@ -1,23 +1,21 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setPosts } from "../../store/slices/authSlice";
-import { useGetFeedPostsQuery } from "../../store/api/postApi";
+import { useEffect, useState } from "react";
 import SinglePostWidget from "./SinglePostWidget";
 import { nanoid } from "nanoid";
+import { useGetMyPostsQuery } from "../../store/api/postApi";
 
-const PostsWidget = () => {
-  const dispatch = useDispatch();
-  const posts = useSelector((state) => state.auth.posts);
-  const { data, isSuccess, isError, error } = useGetFeedPostsQuery();
+const UsersPostWidget = ({ userId }) => {
+  const [posts, setPosts] = useState(null);
+  const { data, isSuccess, isError, error } = useGetMyPostsQuery(userId);
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(setPosts(data));
+      setPosts(data);
     }
     if (isError || error) {
       console.log(error);
     }
-  }, [isSuccess, data, dispatch, isError, error]);
+  }, [isSuccess, data, isError, error]);
+  if (!posts) return null;
 
   return (
     <>
@@ -52,4 +50,4 @@ const PostsWidget = () => {
   );
 };
 
-export default PostsWidget;
+export default UsersPostWidget;

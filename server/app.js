@@ -45,7 +45,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 app.all("*", (req, res, next) => {
-  console.log(req.body);
+  console.log("req.body========", req.body);
+  console.log("req.params ======", req.params);
   next();
 });
 

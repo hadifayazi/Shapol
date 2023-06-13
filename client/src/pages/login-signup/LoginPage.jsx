@@ -66,7 +66,7 @@ export const LoginPage = () => {
                 <AssignmentIndRoundedIcon style={{ fontSize: 50 }} />
               </Box>
               <Typography variant="h3" textAlign="center">
-                Please Login
+                Welcome to Shapol, Please Login
               </Typography>
               <TextField
                 name="email"

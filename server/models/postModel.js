@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 
 const postSchema = new mongoose.Schema(
   {
@@ -15,13 +15,15 @@ const postSchema = new mongoose.Schema(
       required: true,
     },
     location: String,
-    discription: String,
+    description: String,
     photoPath: String,
     userPhotoPath: String,
-    likes: {
-      type: Map,
-      of: Boolean,
-    },
+    likes: [
+      {
+        type: Types.ObjectId,
+        ref: "User",
+      },
+    ],
     comments: {
       type: Array,
       default: [],
