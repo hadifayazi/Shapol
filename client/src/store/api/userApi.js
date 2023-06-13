@@ -52,11 +52,24 @@ export const userApi = createApi({
       },
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         const { data } = await queryFulfilled;
-        console.log(data);
+        dispatch(setFriends(data));
+      },
+    }),
+    getUser: builder.query({
+      query: (userId) => {
+        return {
+          url: `${userId}`,
+          method: "GET",
+          credentials: "include",
+        };
       },
     }),
   }),
 });
 
-export const { useGetMeQuery, useAddRemoveFriendMutation, useGetFriendsQuery } =
-  userApi;
+export const {
+  useGetMeQuery,
+  useAddRemoveFriendMutation,
+  useGetFriendsQuery,
+  useGetUserQuery,
+} = userApi;
