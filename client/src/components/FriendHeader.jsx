@@ -17,14 +17,16 @@ const FriendHeader = ({ friendId, picturePath, name, location }) => {
   const { user } = useSelector((state) => state.auth);
   const userId = user._id;
   const friends = user.friends;
-  const isFriend = friends.find((friend) => friend._id === friendId);
+  const isFriend = friends.find((id) => id === friendId);
   const [addRemoveFriend, { data, isSuccess, isError, error }] =
-    useAddRemoveFriendMutation(userId, friendId);
+    useAddRemoveFriendMutation({
+      userId: userId,
+      friendId: friendId,
+    });
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(setFriends({ friends: data }));
-      console.log(data);
+      dispatch(setFriends(data.friends));
     }
     if (isError) {
       console.log(error);
@@ -59,7 +61,7 @@ const FriendHeader = ({ friendId, picturePath, name, location }) => {
       </Stack>
       <IconButton
         sx={{ mr: "5px", backgroundColor: "#526D82" }}
-        onClick={() => addRemoveFriend()}
+        onClick={() => addRemoveFriend({ userId: userId, friendId: friendId })}
       >
         {isFriend ? (
           <PersonRemoveAlt1Rounded sx={{ color: "skyblue" }} />
