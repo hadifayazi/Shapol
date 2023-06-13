@@ -32,6 +32,16 @@ export const getMe = async (req, res) => {
   }
 };
 
+export const getUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.findById(userId);
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(404).json({ message: error.message || error });
+  }
+};
+
 export const getFriends = async (req, res) => {
   try {
     const { userId } = req.params;
