@@ -3,8 +3,11 @@ import { UserWidget } from "../widgets/UserWidget";
 import { Box, useMediaQuery } from "@mui/material";
 import MyPostWidget from "../widgets/MyPostWidget";
 import PostsWidget from "../widgets/PostsWidget";
+import FriendsListWidget from "../widgets/FriendsListWidget";
+import { useSelector } from "react-redux";
 
 const HomePage = () => {
+  const { _id } = useSelector((state) => state.auth.user);
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
 
   return (
@@ -27,7 +30,12 @@ const HomePage = () => {
           <MyPostWidget />
           <PostsWidget />
         </Box>
-        {isNonMobileScreens && <Box flexBasis="26%"></Box>}
+
+        {isNonMobileScreens && (
+          <Box flexBasis="26%">
+            <FriendsListWidget userId={_id} />
+          </Box>
+        )}
       </Box>
     </Box>
   );
