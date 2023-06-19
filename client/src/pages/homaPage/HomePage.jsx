@@ -33,7 +33,7 @@ const HomePage = () => {
 
         {isNonMobileScreens && (
           <Box flexBasis="26%">
-            <FriendsListWidget userId={_id} />
+            <FriendsListWidget userId={_id} key={_id} />
           </Box>
         )}
       </Box>
